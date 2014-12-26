@@ -1,4 +1,7 @@
-package com.webileapps.navdrawer;
+package com.geomarket.tab_fragment;
+
+import com.webileapps.navdrawer.R;
+import com.webileapps.navdrawer.R.layout;
 
 import android.os.Bundle;
 import android.app.Activity;

@@ -31,10 +31,10 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.geomarket.tab_fragment.FragmentFav;
 import com.geomarket.tab_fragment.FragmentOffer;
 import com.geomarket.tab_fragment.Fragmentgooglemap;
 import com.google.android.gms.maps.MapView;
-import com.webileapps.navdrawer.FragmentFav;
 import com.webileapps.navdrawer.R;
 
 
