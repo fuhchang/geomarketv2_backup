@@ -65,9 +65,7 @@ public class SuperAwesomeCardFragment extends SherlockFragment{
 		FrameLayout fl = new FrameLayout(getActivity());
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		fl.setLayoutParams(params);
-		
-		System.out.println("my position "+position);
-		
+
 		switch(position){
 		
 		case 0:

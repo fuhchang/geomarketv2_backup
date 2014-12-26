@@ -14,7 +14,9 @@ import com.geomarket.entity.Advertisement;
 import com.geomarket.tab_fragment.FragmentOffer;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.widget.ListView;
 
 public class GetAdvert extends AsyncTask<Object, Object, Object>{
@@ -25,7 +27,7 @@ public class GetAdvert extends AsyncTask<Object, Object, Object>{
 	private Cloudinary cloudinary;
 	private ArrayList<Advertisement> adverList;
 	private OfferAdapter adapter;
-	
+	private String locID; 
 	public GetAdvert(FragmentOffer activity, ListView list, OfferAdapter adapter){
 		this.activity = activity;
 		this.list = list;
@@ -40,11 +42,7 @@ public class GetAdvert extends AsyncTask<Object, Object, Object>{
 
 	@Override
 	protected void onPostExecute(Object result) {
-
-		
-		
-		
-		
+			
 		ref.addValueEventListener(new ValueEventListener(){
 
 			@Override
@@ -58,12 +56,24 @@ public class GetAdvert extends AsyncTask<Object, Object, Object>{
 				// TODO Auto-generated method stub
 
 				Map<String, Object> advertsMap = (Map<String, Object>) snapshot.getValue();
-				System.out.println("key set size "+advertsMap.keySet().size());
+				
 				for(String i : advertsMap.keySet()){
-					String url = cloudinary.url().format("jpg").transformation(new Transformation().crop("fit")).generate("http://res.cloudinary.com/geomarket/image/upload/c_scale,w_1400/v1419322296/mcdonald_j0hmud.jpg");
+					
+					String url = cloudinary.url().format("jpg").transformation(new Transformation().width(1400).crop("fit")).generate(i);
 					Advertisement advert = new Advertisement();
 					advert.setAdvertID(i);
 					Map<String, Object> advertMap = (Map<String, Object>) advertsMap.get(i);
+					
+					String locResult;
+					int checkSpace = advertMap.get("location").toString().indexOf(" ");
+					
+			
+					if(checkSpace != -1){
+						locResult = advertMap.get("location").toString().substring(0,advertMap.get("location").toString().indexOf(" "));
+					}else{
+						locResult = advertMap.get("location").toString().substring(0,advertMap.get("location").toString().length());
+					}
+					if(locID.contains(locResult)){
 					advert.setTitle(advertMap.get("title").toString());
 					advert.setSubtitle(advertMap.get("subtitle").toString());
 					Double salePrice = Double.parseDouble(advertMap.get("sales_price").toString());
@@ -72,9 +82,9 @@ public class GetAdvert extends AsyncTask<Object, Object, Object>{
 					Double originalPrice = Double.parseDouble(advertMap.get("original_price").toString());
 					advert.setoPrice(originalPrice);
 					advert.setImgUrl(url);
-					System.out.println("advert " + i);
-					adapter.add(advert);
 					
+					adapter.add(advert);
+					}
 				}
 				adapter.notifyDataSetChanged();
 				
@@ -94,8 +104,12 @@ public class GetAdvert extends AsyncTask<Object, Object, Object>{
 				"cloud_name","geomarket",
 				"api_key", "255469583551513",
 				"api_secret", "eHi0O2T7iEtSBasnIjBgcEqV6fY"));
-		
+		loadSavedPreferences();
 	}
 	
-	
+	private void loadSavedPreferences(){
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity.getActivity());
+		locID = sp.getString("geoID", "location name");
+		System.out.println("loc id "+locID);
+	}
 }

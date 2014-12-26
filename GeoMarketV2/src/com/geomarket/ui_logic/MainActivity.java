@@ -18,6 +18,7 @@
 package com.geomarket.ui_logic;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import java.util.List;
 
@@ -40,6 +41,10 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.geomarket.geofencing.GeofenceRequester;
 import com.geomarket.geofencing.SimpleGeofence;
 import com.geomarket.geofencing.SimpleGeofenceStore;
@@ -57,8 +62,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private String[] mMainMenu;
 	
 	//geofence varable
-	private double lat = 1.3792457;
-	private double Lng = 103.8500;
+
 	private double myLat;
 	private double myLng;
 	private Location location;
@@ -67,15 +71,18 @@ public class MainActivity extends SherlockFragmentActivity {
 	private LatLng current_location;
 	private SimpleGeofenceStore mPrefs;
 	private Location mCurrentLocation;
-	private int radius =1000;
+	private int radius =200;
 	private GeofenceRequester mGeofenceRequester;
+	private SimpleGeofence UiGeofence;
+	private Firebase ref;
 	List<Geofence> mCurrentGeofences;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		ref.setAndroidContext(getApplicationContext());
+		ref = new Firebase("https://geomarket.firebaseio.com/location");
 		mTitle = mDrawerTitle = getTitle();
 		mMainMenu = getResources().getStringArray(R.array.mainmenu);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -120,22 +127,51 @@ public class MainActivity extends SherlockFragmentActivity {
 			selectItem(0);
 		}
 		//getMyCurrentLocation();
-		System.out.println(current_location);
+		
 		mCurrentGeofences = new ArrayList<Geofence>();
 		mPrefs = new SimpleGeofenceStore(MainActivity.this);
 		mGeofenceRequester = new GeofenceRequester(MainActivity.this);
-		Log.d("result", lat + " " + Lng);
-		SimpleGeofence UiGeofence = new SimpleGeofence("testing123", lat, Lng, radius,Geofence.NEVER_EXPIRE, Geofence.GEOFENCE_TRANSITION_ENTER);
-		mPrefs.setGeofence("testing123", UiGeofence);
-		mCurrentGeofences.add(UiGeofence.toGeofence());
+		Log.d("test", "start testing");
 		
-		try{
-			mGeofenceRequester.addGeofences(mCurrentGeofences, "HELLO", "there is a offer near you!! test", 0);
+		ref.addValueEventListener(new ValueEventListener(){
+
+			@Override
+			public void onCancelled(FirebaseError error) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				// TODO Auto-generated method stub
+
+				Map<String, Object> locMaps = (Map<String, Object>) snapshot.getValue();
+
+				for(String i : locMaps.keySet()){
+					Map<String, Object> locMap = (Map<String, Object>) locMaps.get(i);
+					
+					UiGeofence = new SimpleGeofence(i + " has some offer faster find them!!", Double.parseDouble(locMap.get("lat").toString()), Double.parseDouble(locMap.get("lng").toString()), radius,Geofence.NEVER_EXPIRE, Geofence.GEOFENCE_TRANSITION_ENTER);
+					mPrefs.setGeofence("There is some offer Near you find them now!!!", UiGeofence);
+					mCurrentGeofences.add(UiGeofence.toGeofence());
+				}
+				
+				
+				try{
+					mGeofenceRequester.addGeofences(mCurrentGeofences, "HELLO", "there is a offer near you!! test", 0);
+					
+				}catch(UnsupportedOperationException e){
+
+					Toast.makeText(getApplicationContext(), R.string.add_geofences_already_requested_error, Toast.LENGTH_LONG).show();
+				}
+			}
 			
-		}catch(UnsupportedOperationException e){
-			Toast.makeText(this, R.string.add_geofences_already_requested_error,
-                    Toast.LENGTH_LONG).show();
-		}
+		});
+
+		
+		
+		
+		
+		
 	}
 
 	@Override
@@ -213,37 +249,5 @@ public class MainActivity extends SherlockFragmentActivity {
 		mTitle = title;
 		getActionBar().setTitle(mTitle);
 	}
-	
-	private void getMyCurrentLocation(){
-		LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		try {
-			gps_enabled = locManager
-					.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		} catch (Exception ex) {
 
-		}
-		try {
-			network_enabled = locManager
-					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-		} catch (Exception ex) {
-
-		}
-		if (gps_enabled) {
-			location = locManager
-					.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-		}
-		if (network_enabled && location == null) {
-			location = locManager
-					.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-		}
-		if (location != null) {
-			// accLoc=location.getAccuracy();
-			myLat = location.getLatitude();
-			myLng = location.getLongitude();
-		}
-		current_location = new LatLng(myLat, myLng);
-	}
-	
 }

@@ -10,6 +10,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -92,14 +95,19 @@ public class ReceiveTransitionsIntentService extends IntentService {
                 int currentNoOfGeofences = 0;
                 String eol = System.getProperty("line.separator");  
                 String contentText = "";
+                
+                
                 for (int index = 0; index < geofences.size() ; index++) {
                     geofenceIds[index] = geofences.get(index).getRequestId();
                     currentNoOfGeofences += 1;
+                    System.out.println("id "+geofenceIds[index]);
                     contentText += geofences.get(index).getRequestId() + eol;
                 }
                 String ids = TextUtils.join(GeofenceUtils.GEOFENCE_ID_DELIMITER,geofenceIds);
                 String transitionType = getTransitionString(transition);
-                System.out.println(currentNoOfGeofences);
+                
+                String locID = ids.substring(0,ids.indexOf(" "));
+                savePreferences("geoID", locID);
                 String contentTitle = currentNoOfGeofences + intent.getExtras().getString("contentTitle");
                 int GeoFenceID = intent.getExtras().getInt("GeoFenceID");
                 //String contentText = intent.getExtras().getString("contentText");
@@ -139,7 +147,7 @@ public class ReceiveTransitionsIntentService extends IntentService {
     			
     			mBuilder.setContentTitle(contentTitle);
     		      mBuilder.setContentText("Scroll down to view offer");
-    		      mBuilder.setTicker("OFFER DETECED");
+    		      mBuilder.setTicker("OFFER DETECED!!!!");
     		      mBuilder.setSmallIcon(R.drawable.ic_launcher);
 
     		      /* Increase notification number every time a new notification arrives */
@@ -150,7 +158,7 @@ public class ReceiveTransitionsIntentService extends IntentService {
     		             new NotificationCompat.InboxStyle();
     		      
     		      // Sets a title for the Inbox style big view
-    		      inboxStyle.setBigContentTitle("offer within 1km:");
+    		      inboxStyle.setBigContentTitle("GeoMarket Offer!!");
     		      // Moves events into the big view
     		      for (int i=0; i < contentText.length; i++) {
 
@@ -192,7 +200,6 @@ public class ReceiveTransitionsIntentService extends IntentService {
         switch (transitionType) {
        
             case Geofence.GEOFENCE_TRANSITION_ENTER:
-            		System.out.println("u r in range");
                 return getString(R.string.geofence_transition_entered);
 
             case Geofence.GEOFENCE_TRANSITION_EXIT:
@@ -201,5 +208,12 @@ public class ReceiveTransitionsIntentService extends IntentService {
             default:
                 return getString(R.string.geofence_transition_unknown);
         }
+    }
+    
+    private void savePreferences(String key, String value){
+    	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    	Editor edit = sp.edit();
+    	edit.putString(key, value);
+    	edit.commit();
     }
 }
