@@ -3,6 +3,7 @@ package com.geomarket.geofencing;
 import java.util.List;
 
 
+
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -189,8 +190,9 @@ public class ReceiveTransitionsIntentService extends IntentService {
      */
     private String getTransitionString(int transitionType) {
         switch (transitionType) {
-
+       
             case Geofence.GEOFENCE_TRANSITION_ENTER:
+            		System.out.println("u r in range");
                 return getString(R.string.geofence_transition_entered);
 
             case Geofence.GEOFENCE_TRANSITION_EXIT:
