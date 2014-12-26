@@ -56,7 +56,7 @@ public class User_create extends AsyncTask<Object, Object, Object> {
 					@Override
 					public void onAuthenticated(AuthData authData) {
 						// TODO Auto-generated method stub
-						Firebase usersRef = ref.child("users");
+						//Firebase usersRef = ref.child("users");
 						
 						Map<String, String> userMap = new HashMap<String, String>();
 						userMap.put("email", user.getEmail());

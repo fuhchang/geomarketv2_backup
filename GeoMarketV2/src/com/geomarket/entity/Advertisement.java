@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class Advertisement implements Parcelable {
 	private String advertID,title , subtitle, desc, imgUrl, location;
 	private double price, oPrice;
+	private int viewCount;
 	public String getAdvertID() {
 		return advertID;
 	}
@@ -54,6 +55,12 @@ public class Advertisement implements Parcelable {
 	public void setoPrice(double oPrice) {
 		this.oPrice = oPrice;
 	}
+	public int getViewCount() {
+		return viewCount;
+	}
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -70,6 +77,7 @@ public class Advertisement implements Parcelable {
 		dest.writeString(location);
 		dest.writeDouble(price);
 		dest.writeDouble(oPrice);
+		dest.writeInt(viewCount);
 	}
 	
 	public Advertisement(Parcel source){
@@ -103,5 +111,7 @@ public class Advertisement implements Parcelable {
 		this.location = in.readString();
 		this.price = in.readDouble();
 		this.oPrice = in.readDouble();
+		this.viewCount = in.readInt();
 	}
+	
 }
