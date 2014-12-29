@@ -50,10 +50,10 @@ import android.widget.Toast;
 public class Fragmentgooglemap extends Fragment  implements LocationListener,OnMarkerClickListener, OnMarkerDragListener, GooglePlayServicesClient.ConnectionCallbacks{
 	private MapView mMap;
 	private GoogleMap gMap;
-	private double lat = 1.37925;
-	private double Lng = 103.8500;
+	private double lat = 1.3792457;
+	private double Lng = 103.85;
 
-	private int radius =1000;
+	private int radius =500;
 	
 
 	public Fragmentgooglemap(){

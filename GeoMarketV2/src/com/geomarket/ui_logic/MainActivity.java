@@ -71,7 +71,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private LatLng current_location;
 	private SimpleGeofenceStore mPrefs;
 	private Location mCurrentLocation;
-	private int radius =200;
+	private int radius = 500;
 	private GeofenceRequester mGeofenceRequester;
 	private SimpleGeofence UiGeofence;
 	private Firebase ref;
@@ -131,7 +131,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		mCurrentGeofences = new ArrayList<Geofence>();
 		mPrefs = new SimpleGeofenceStore(MainActivity.this);
 		mGeofenceRequester = new GeofenceRequester(MainActivity.this);
-		Log.d("test", "start testing");
+	
 		
 		ref.addValueEventListener(new ValueEventListener(){
 

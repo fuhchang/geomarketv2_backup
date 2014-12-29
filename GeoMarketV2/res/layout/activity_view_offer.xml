@@ -1,47 +1,93 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    	xmlns:android="http://schemas.android.com/apk/res/android"
+    	xmlns:tools="http://schemas.android.com/tools"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">
+    	
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:id="@+id/rlviewoffer"
-    tools:context=".ViewOffer" >
-	
-    <ImageView
-        android:id="@+id/imgIV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    android:gravity="center">
     
+     <RelativeLayout
+         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlIM">
+        
+       <ImageView
+        android:id="@+id/imgIV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:contentDescription="Image" />
+     </RelativeLayout>
+         
+         
+         
+    <RelativeLayout
+        android:id="@+id/rl1" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+    	android:paddingRight="10dp">
+ 
     <TextView
         android:id="@+id/descTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imgIV" />
+        android:layout_marginTop="8dp" />
     
     <TextView
         android:id="@+id/salesPriceTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/descTV"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
         android:text="price" />
-	<View
+    <View
 	    android:id="@+id/view1"
     android:layout_width="fill_parent"
     android:layout_height="1dp"
     android:layout_below="@+id/salesPriceTV"
     android:background="@android:color/darker_gray"/>
-	
-	<TextView
+    <TextView
         android:id="@+id/discountTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view1"
+         android:paddingBottom="10dp"
+    	android:paddingLeft="@dimen/activity_horizontal_margin"
+    	android:paddingRight="@dimen/activity_horizontal_margin"
+    	android:paddingTop="10dp"
         android:text="Discount" />
-	
+    </RelativeLayout>
+    	
+    
+    <RelativeLayout
+        android:id="@+id/rl2"
+        android:layout_marginTop="20dp"  
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+    	android:paddingRight="10dp">
+
 	<TextView
-        android:id="@+id/viewTV"
+        android:id="@+id/generalTitleTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view1"
-        android:layout_marginRight="20dp"
-        android:layout_toRightOf="@+id/discountTV"
-        android:text="View" />
-</RelativeLayout>
+        android:paddingTop="20dp"
+        android:text="General Info" />
+        
+    <TextView
+        android:id="@+id/generalTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:layout_below="@+id/generalTitleTV" />
+        
+    </RelativeLayout>
+</LinearLayout>
+</ScrollView>

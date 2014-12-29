@@ -100,14 +100,25 @@ public class ReceiveTransitionsIntentService extends IntentService {
                 for (int index = 0; index < geofences.size() ; index++) {
                     geofenceIds[index] = geofences.get(index).getRequestId();
                     currentNoOfGeofences += 1;
-                    System.out.println("id "+geofenceIds[index]);
+                    
                     contentText += geofences.get(index).getRequestId() + eol;
                 }
                 String ids = TextUtils.join(GeofenceUtils.GEOFENCE_ID_DELIMITER,geofenceIds);
                 String transitionType = getTransitionString(transition);
+                if(transitionType == getString(R.string.geofence_transition_entered)){
+                	 String locID = ids.substring(0,ids.indexOf(" "));
+                     savePreferences("geoID", locID);
+                }else if(transitionType == getString(R.string.geofence_transition_exited)){
+                	SharedPreferences preferences = getSharedPreferences("result", 0);
+                	String value = preferences.getString("geoID", null);
+                	if(value == null){
+                		Toast.makeText(getApplicationContext(), "No SharedPreferences found!", Toast.LENGTH_LONG).show();
+                	}else{
+                		Toast.makeText(getApplicationContext(), "SharedPreferences found!", Toast.LENGTH_LONG).show();
+                		clearPrefernces("geoID");
+                	}
+                }
                 
-                String locID = ids.substring(0,ids.indexOf(" "));
-                savePreferences("geoID", locID);
                 String contentTitle = currentNoOfGeofences + intent.getExtras().getString("contentTitle");
                 int GeoFenceID = intent.getExtras().getInt("GeoFenceID");
                 //String contentText = intent.getExtras().getString("contentText");
@@ -215,5 +226,11 @@ public class ReceiveTransitionsIntentService extends IntentService {
     	Editor edit = sp.edit();
     	edit.putString(key, value);
     	edit.commit();
+    }
+    
+    private void clearPrefernces(String key){
+    	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    	SharedPreferences.Editor editor = sp.edit();
+    	editor.remove(key).commit();
     }
 }

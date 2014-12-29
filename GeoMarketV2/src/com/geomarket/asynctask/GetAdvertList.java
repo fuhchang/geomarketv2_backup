@@ -74,19 +74,23 @@ public class GetAdvertList extends AsyncTask<Object, Object, Object>{
 					}else{
 						locResult = advertMap.get("location").toString().substring(0,advertMap.get("location").toString().length());
 					}
-					if(locID.contains(locResult)){
-					advert.setTitle(advertMap.get("title").toString());
-					advert.setSubtitle(advertMap.get("subtitle").toString());
-					Double salePrice = Double.parseDouble(advertMap.get("sales_price").toString());
-					advert.setPrice(salePrice);
-					advert.setLocation(advertMap.get("location").toString());
-					Double originalPrice = Double.parseDouble(advertMap.get("original_price").toString());
-					advert.setoPrice(originalPrice);
-					advert.setImgUrl(url);
 					
-					adapter.add(advert);
-					
+					if(locID != null){
+						if(locID.contains(locResult)){
+							advert.setTitle(advertMap.get("title").toString());
+							advert.setSubtitle(advertMap.get("subtitle").toString());
+							Double salePrice = Double.parseDouble(advertMap.get("sales_price").toString());
+							advert.setPrice(salePrice);
+							advert.setLocation(advertMap.get("location").toString());
+							Double originalPrice = Double.parseDouble(advertMap.get("original_price").toString());
+							advert.setoPrice(originalPrice);
+							advert.setImgUrl(url);
+						
+						adapter.add(advert);
+						
+						}
 					}
+						
 				}
 				adapter.notifyDataSetChanged();
 				

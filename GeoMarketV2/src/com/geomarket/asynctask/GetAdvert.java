@@ -32,13 +32,15 @@ public class GetAdvert extends AsyncTask<Object, Object, Object>{
 	private Query queryRef;
 	private String itemID;
 	private ImageView imgIV;
-	private TextView salesPriceTV , descTV;
-	public GetAdvert(Activity activity, String itemID, TextView descTV , TextView salePriceTV, ImageView imgIV){
+	private TextView salesPriceTV , descTV, general, discountTV;
+	public GetAdvert(Activity activity, String itemID, TextView descTV , TextView salesPriceTV, ImageView imgIV, TextView general, TextView discountTV){
 		this.activity = activity;
 		this.itemID = itemID;
 		this.descTV = descTV;
 		this.salesPriceTV = salesPriceTV;
 		this.imgIV = imgIV;
+		this.general = general;
+		this.discountTV = discountTV;
 	}
 	@Override
 	protected Object doInBackground(Object... params) {
@@ -63,8 +65,15 @@ public class GetAdvert extends AsyncTask<Object, Object, Object>{
 				String url = null;
 				for(String i : advertsMap.keySet()){
 					if(i.equals(itemID)){
-						url = cloudinary.url().format("jpg").transformation(new Transformation().width(1400).crop("fit")).generate(i);
+						url = cloudinary.url().format("jpg").transformation(new Transformation().width(1600).crop("fit")).generate(i);
 						loadImageFromURL(url,imgIV );
+						Map<String, Object> advertMap = (Map<String, Object>) advertsMap.get(i);
+						descTV.setText(advertMap.get("description").toString());
+						salesPriceTV.setText("Offer Price: $" + advertMap.get("sales_price").toString());
+						float before_discount = (float) ((float) (Double.parseDouble(advertMap.get("sales_price").toString())*100)/Double.parseDouble(advertMap.get("original_price").toString()));
+						int discountPrice = (int) (100 - before_discount);
+						discountTV.setText("Discount: "+discountPrice + "%");
+						general.setText(advertMap.get("general_info").toString());
 						dialog.dismiss();
 					}
 				}
