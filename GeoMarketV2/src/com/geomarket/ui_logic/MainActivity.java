@@ -22,16 +22,20 @@ import java.util.Map;
 
 import java.util.List;
 
+import android.app.FragmentManager.OnBackStackChangedListener;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -48,6 +52,8 @@ import com.firebase.client.ValueEventListener;
 import com.geomarket.geofencing.GeofenceRequester;
 import com.geomarket.geofencing.SimpleGeofence;
 import com.geomarket.geofencing.SimpleGeofenceStore;
+import com.geomarket.tab_fragment.FragmentSelectedOffer;
+import com.geomarket.tab_fragment.Fragmentgooglemap;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.maps.model.LatLng;
 import com.webileapps.navdrawer.R;
@@ -166,9 +172,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 			
 		});
-
-		
-		
 		
 		
 		
@@ -250,4 +253,18 @@ public class MainActivity extends SherlockFragmentActivity {
 		getActionBar().setTitle(mTitle);
 	}
 
+	@Override
+	public void onBackPressed() {
+		System.out.println("back!!");
+		
+		Fragment fragment = getSupportFragmentManager().findFragmentByTag("selOffer");
+		if((fragment != null)){
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.remove(fragment);
+			ft.commit();
+		}
+
+	}
+	
+	
 }

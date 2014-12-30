@@ -21,7 +21,7 @@ public class FragmentFav extends Fragment {
 		View rootView = inflater.inflate(R.layout.activity_fragment_fav, container,false);
 		rootView.setBackgroundColor(Color.LTGRAY);
 		
-		return super.onCreateView(inflater, container, savedInstanceState);
+		return rootView;
 	}
 
 	

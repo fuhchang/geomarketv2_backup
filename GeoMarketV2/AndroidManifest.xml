@@ -102,6 +102,10 @@
             android:name="com.geomarket.ui_logic.ViewOffer"
             android:label="@string/title_activity_view_offer" >
         </activity>
+        <activity
+            android:name="com.geomarket.tab_fragment.FragmentSelectedOffer"
+            android:label="@string/title_activity_fragment_selected_offer" >
+        </activity>
     </application>
 
 </manifest>

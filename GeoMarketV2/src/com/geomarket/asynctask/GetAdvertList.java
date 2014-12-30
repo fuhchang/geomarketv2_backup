@@ -29,10 +29,11 @@ public class GetAdvertList extends AsyncTask<Object, Object, Object>{
 	private ArrayList<Advertisement> adverList;
 	private OfferAdapter adapter;
 	private String locID; 
-	public GetAdvertList(Activity activity, ListView list, OfferAdapter adapter){
+	public GetAdvertList(Activity activity, ListView list, OfferAdapter adapter,  String locID){
 		this.activity = activity;
 		this.list = list;
 		this.adapter = adapter;
+		this.locID = locID;
 	}
 	
 	@Override
@@ -110,12 +111,8 @@ public class GetAdvertList extends AsyncTask<Object, Object, Object>{
 				"cloud_name","geomarket",
 				"api_key", "255469583551513",
 				"api_secret", "eHi0O2T7iEtSBasnIjBgcEqV6fY"));
-		loadSavedPreferences();
+		
 	}
 	
-	private void loadSavedPreferences(){
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(activity);
-		locID = sp.getString("geoID", "location name");
-		System.out.println("loc id "+locID);
-	}
+
 }

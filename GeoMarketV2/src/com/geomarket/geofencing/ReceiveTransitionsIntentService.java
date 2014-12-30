@@ -103,12 +103,17 @@ public class ReceiveTransitionsIntentService extends IntentService {
                     
                     contentText += geofences.get(index).getRequestId() + eol;
                 }
+                
                 String ids = TextUtils.join(GeofenceUtils.GEOFENCE_ID_DELIMITER,geofenceIds);
                 String transitionType = getTransitionString(transition);
+                
                 if(transitionType == getString(R.string.geofence_transition_entered)){
+              
                 	 String locID = ids.substring(0,ids.indexOf(" "));
                      savePreferences("geoID", locID);
                 }else if(transitionType == getString(R.string.geofence_transition_exited)){
+                	Toast.makeText(getApplicationContext(), "exited", Toast.LENGTH_LONG).show();
+                	Log.d("geofencing", "exited");
                 	SharedPreferences preferences = getSharedPreferences("result", 0);
                 	String value = preferences.getString("geoID", null);
                 	if(value == null){

@@ -1,10 +1,8 @@
 package com.geomarket.tab_fragment;
 
 import java.util.ArrayList;
+
 import java.util.Map;
-
-
-
 
 import java.util.List;
 
@@ -43,10 +41,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -71,7 +72,7 @@ public class Fragmentgooglemap extends Fragment  implements LocationListener,OnM
 	public View onCreateView(final LayoutInflater inflater,
 			 ViewGroup container,  Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View rootView = inflater.inflate(R.layout.activity_fragmentgooglemap, container, false);
+		final View rootView = inflater.inflate(R.layout.activity_fragmentgooglemap, container, false);
 
 		MapsInitializer.initialize(this.getActivity());
 		mMap = (MapView) rootView.findViewById(R.id.googleMapView);
@@ -103,7 +104,11 @@ public class Fragmentgooglemap extends Fragment  implements LocationListener,OnM
 						public void onInfoWindowClick(Marker marker) {
 							// TODO Auto-generated method stub
 							System.out.println(marker.getTitle());
+							savePreferences("selgeoID", marker.getTitle());
+							Fragment selOfferFragment = new FragmentSelectedOffer();
 
+							Fragmentgooglemap.this.getActivity().getSupportFragmentManager().beginTransaction().add(R.id.tab_googlemap, selOfferFragment, "selOffer").commit();
+							
 						}
 						
 					});
@@ -200,7 +205,13 @@ public class Fragmentgooglemap extends Fragment  implements LocationListener,OnM
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
+	
+	
+	private void savePreferences(String key, String value){
+    	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    	Editor edit = sp.edit();
+    	edit.putString(key, value);
+    	edit.commit();
+    }
 
 }
