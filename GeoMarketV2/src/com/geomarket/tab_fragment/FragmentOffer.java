@@ -85,12 +85,10 @@ public class FragmentOffer extends Fragment {
 				System.out.println("testingkey " +key);
 				if(key.equals("geoID")){
 					locID = sp.getString("geoID", "location name");
-					Log.d("key value", locID);
+					
 					Toast.makeText(getActivity(), sp.getString("geoID", "location name"), Toast.LENGTH_LONG).show();
 					GetAdvertList getAdvert = new GetAdvertList(getActivity(), listview ,adapter, locID);
 					getAdvert.execute();
-				}else{
-					Toast.makeText(getActivity(), "doing nth", Toast.LENGTH_LONG).show();
 				}
 			}
 		};
