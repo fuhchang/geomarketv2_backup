@@ -96,5 +96,6 @@ public class FragmentOffer extends Fragment {
 		System.out.println("loc id "+locID);
 	}
 	
+	
 
 }
