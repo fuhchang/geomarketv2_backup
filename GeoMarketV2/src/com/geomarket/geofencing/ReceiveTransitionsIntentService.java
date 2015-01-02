@@ -110,9 +110,10 @@ public class ReceiveTransitionsIntentService extends IntentService {
                 String transitionType = getTransitionString(transition);
                 
                 if(transitionType == getString(R.string.geofence_transition_entered)){
-              
+                	
                 	 String locID = ids.substring(0,ids.indexOf(" "));
                      savePreferences("geoID", locID);
+                     
                 }else if(transitionType == getString(R.string.geofence_transition_exited)){
                 	Toast.makeText(getApplicationContext(), "exited", Toast.LENGTH_LONG).show();
                 	Log.d("geofencing", "exited");
@@ -229,6 +230,7 @@ public class ReceiveTransitionsIntentService extends IntentService {
     }
     
     private void savePreferences(String key, String value){
+    	System.out.println("test pref" + key +" "+ value);
     	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     	Editor edit = sp.edit();
     	edit.putString(key, value);

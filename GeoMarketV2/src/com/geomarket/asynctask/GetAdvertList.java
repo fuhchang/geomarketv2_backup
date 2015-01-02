@@ -58,13 +58,13 @@ public class GetAdvertList extends AsyncTask<Object, Object, Object>{
 				// TODO Auto-generated method stub
 
 				Map<String, Object> advertsMap = (Map<String, Object>) snapshot.getValue();
-				System.out.println(advertsMap);
+				
 				for(String i : advertsMap.keySet()){
 					String url = cloudinary.url().format("jpg").transformation(new Transformation().width(1400).crop("fit")).generate(i);
 					if(url == null){
 						url = cloudinary.url().format("jpg").transformation(new Transformation().width(1400).crop("fit")).generate("http://res.cloudinary.com/dfm9692pu/image/upload/c_scale,w_1400/v1420164779/noImage.png");
 					}
-					System.out.println(url);
+
 					Advertisement advert = new Advertisement();
 					advert.setAdvertID(i);
 					Map<String, Object> advertMap = (Map<String, Object>) advertsMap.get(i);
@@ -106,6 +106,7 @@ public class GetAdvertList extends AsyncTask<Object, Object, Object>{
 
 	@Override
 	protected void onPreExecute() {
+		adapter.clear();
 		dialog = ProgressDialog.show(activity,
 				"Retrieving advertisements", "Please wait...", true);
 		

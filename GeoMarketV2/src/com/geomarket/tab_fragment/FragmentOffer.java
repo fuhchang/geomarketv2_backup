@@ -27,12 +27,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -41,7 +43,7 @@ public class FragmentOffer extends Fragment {
 	private OfferAdapter adapter;
 	private String locID; 
 	private ArrayList<Advertisement> advertList;
-
+	private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container,  Bundle savedInstanceState) {
@@ -72,18 +74,28 @@ public class FragmentOffer extends Fragment {
 			}
 			
 		});
-		/*
-		SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
+		
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
 			
 			@Override
-			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			public void onSharedPreferenceChanged(SharedPreferences sp,
 					String key) {
 				// TODO Auto-generated method stub
-				GetAdvertList getAdvert = new GetAdvertList(getActivity(), listview ,adapter, key);
-				getAdvert.execute();
+				System.out.println("testingkey " +key);
+				if(key.equals("geoID")){
+					locID = sp.getString("geoID", "location name");
+					Log.d("key value", locID);
+					Toast.makeText(getActivity(), sp.getString("geoID", "location name"), Toast.LENGTH_LONG).show();
+					GetAdvertList getAdvert = new GetAdvertList(getActivity(), listview ,adapter, locID);
+					getAdvert.execute();
+				}else{
+					Toast.makeText(getActivity(), "doing nth", Toast.LENGTH_LONG).show();
+				}
 			}
 		};
-		*/
+		sp.registerOnSharedPreferenceChangeListener(prefListener);
+		
 		GetAdvertList getAdvert = new GetAdvertList(getActivity(), listview ,adapter, locID);
 		getAdvert.execute();
 		return rootView;
