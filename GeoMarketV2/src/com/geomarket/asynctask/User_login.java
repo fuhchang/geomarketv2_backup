@@ -57,7 +57,7 @@ public class User_login extends AsyncTask<Object, Object, Object> {
 	@Override
 	protected void onPreExecute() {
 		Firebase.setAndroidContext(activity);
-		ref = new Firebase("https://geomarket.firebaseio.com/");
+		ref = new Firebase("https://geomarketnyp.firebaseio.com/");
 		dialog = ProgressDialog.show(activity, "logging in."," Please wait....", true);
 	}
 

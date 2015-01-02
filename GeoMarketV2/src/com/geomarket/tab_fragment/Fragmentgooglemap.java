@@ -61,8 +61,8 @@ public class Fragmentgooglemap extends Fragment  implements LocationListener,OnM
 	private GoogleMap gMap;
 	private double lat = 1.3792457;
 	private double Lng = 103.85;
-	private Firebase ref = new Firebase("https://geomarket.firebaseio.com/location");
-	private int radius =500;
+	private Firebase ref = new Firebase("https://geomarketnyp.firebaseio.com/location");
+	private int radius =100;
 	
 
 	public Fragmentgooglemap(){
@@ -106,7 +106,6 @@ public class Fragmentgooglemap extends Fragment  implements LocationListener,OnM
 							System.out.println(marker.getTitle());
 							savePreferences("selgeoID", marker.getTitle());
 							Fragment selOfferFragment = new FragmentSelectedOffer();
-
 							Fragmentgooglemap.this.getActivity().getSupportFragmentManager().beginTransaction().add(R.id.tab_googlemap, selOfferFragment, "selOffer").commit();
 							
 						}

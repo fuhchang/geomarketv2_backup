@@ -77,7 +77,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private LatLng current_location;
 	private SimpleGeofenceStore mPrefs;
 	private Location mCurrentLocation;
-	private int radius = 500;
+	private int radius = 100;
 	private GeofenceRequester mGeofenceRequester;
 	private SimpleGeofence UiGeofence;
 	private Firebase ref;
@@ -88,7 +88,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ref.setAndroidContext(getApplicationContext());
-		ref = new Firebase("https://geomarket.firebaseio.com/location");
+		ref = new Firebase("https://geomarketnyp.firebaseio.com/location");
 		mTitle = mDrawerTitle = getTitle();
 		mMainMenu = getResources().getStringArray(R.array.mainmenu);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -54,14 +54,14 @@
         android:layout_below="@+id/salePercentageTitle" />
     
     <TextView
-        android:id="@+id/broughtCountTitle"
+        android:id="@+id/viewCountTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="13dp"
         android:paddingLeft="10dp"
         android:layout_toRightOf="@+id/salePercentageTitle"
         android:layout_below="@+id/imgIV"
-        android:text="Brought:" />
+        android:text="View:" />
     
     <TextView
         android:id="@+id/broughtCount"
@@ -71,7 +71,7 @@
         android:paddingLeft="33dp"
         android:paddingBottom="8dp"
         android:layout_toRightOf="@+id/salePercentage"
-        android:layout_below="@+id/broughtCountTitle"
+        android:layout_below="@+id/viewCountTitle"
         android:text="0" />
 
 </RelativeLayout>

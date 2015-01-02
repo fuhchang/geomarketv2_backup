@@ -87,12 +87,12 @@ public class GetAdvert extends AsyncTask<Object, Object, Object>{
 		dialog = ProgressDialog.show(activity,
 				"Retrieving advertisements", "Please wait...", true);
 		
-		ref = new Firebase("https://geomarket.firebaseio.com/advertisements");
+		ref = new Firebase("https://geomarketnyp.firebaseio.com/advertisement");
 		
 		cloudinary = new Cloudinary(Cloudinary.asMap(
-				"cloud_name","geomarket",
-				"api_key", "255469583551513",
-				"api_secret", "eHi0O2T7iEtSBasnIjBgcEqV6fY"));
+				"cloud_name","dfm9692pu",
+				"api_key", "443893967666533",
+				"api_secret", "uYlUVpAZK405EHc6CsrHF64VVlg"));
 	}
 	
 	public boolean loadImageFromURL(String fileUrl, ImageView iv){

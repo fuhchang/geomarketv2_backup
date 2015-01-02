@@ -58,10 +58,13 @@ public class GetAdvertList extends AsyncTask<Object, Object, Object>{
 				// TODO Auto-generated method stub
 
 				Map<String, Object> advertsMap = (Map<String, Object>) snapshot.getValue();
-				
+				System.out.println(advertsMap);
 				for(String i : advertsMap.keySet()){
-					
 					String url = cloudinary.url().format("jpg").transformation(new Transformation().width(1400).crop("fit")).generate(i);
+					if(url == null){
+						url = cloudinary.url().format("jpg").transformation(new Transformation().width(1400).crop("fit")).generate("http://res.cloudinary.com/dfm9692pu/image/upload/c_scale,w_1400/v1420164779/noImage.png");
+					}
+					System.out.println(url);
 					Advertisement advert = new Advertisement();
 					advert.setAdvertID(i);
 					Map<String, Object> advertMap = (Map<String, Object>) advertsMap.get(i);
@@ -106,11 +109,11 @@ public class GetAdvertList extends AsyncTask<Object, Object, Object>{
 		dialog = ProgressDialog.show(activity,
 				"Retrieving advertisements", "Please wait...", true);
 		
-		ref = new Firebase("https://geomarket.firebaseio.com/advertisements");
+		ref = new Firebase("https://geomarketnyp.firebaseio.com/advertisement");
 		cloudinary = new Cloudinary(Cloudinary.asMap(
-				"cloud_name","geomarket",
-				"api_key", "255469583551513",
-				"api_secret", "eHi0O2T7iEtSBasnIjBgcEqV6fY"));
+				"cloud_name","dfm9692pu",
+				"api_key", "443893967666533",
+				"api_secret", "uYlUVpAZK405EHc6CsrHF64VVlg"));
 		
 	}
 	

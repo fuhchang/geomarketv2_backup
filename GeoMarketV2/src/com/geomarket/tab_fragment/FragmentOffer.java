@@ -36,7 +36,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class FragmentOffer extends Fragment  {
+public class FragmentOffer extends Fragment {
 	private ListView listview;
 	private OfferAdapter adapter;
 	private String locID; 
@@ -47,6 +47,7 @@ public class FragmentOffer extends Fragment  {
 			ViewGroup container,  Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		loadSavedPreferences();
+		
 		View rootView = inflater.inflate(R.layout.activity_fragment_offer, container, false);
 		rootView.setBackgroundColor(Color.LTGRAY);
 		listview = (ListView) rootView.findViewById(R.id.offerList);
@@ -71,7 +72,19 @@ public class FragmentOffer extends Fragment  {
 			}
 			
 		});
-		GetAdvertList getAdvert = new GetAdvertList(this.getActivity(), listview ,adapter, locID);
+		/*
+		SharedPreferences.OnSharedPreferenceChangeListener spChanged = new SharedPreferences.OnSharedPreferenceChangeListener() {
+			
+			@Override
+			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+					String key) {
+				// TODO Auto-generated method stub
+				GetAdvertList getAdvert = new GetAdvertList(getActivity(), listview ,adapter, key);
+				getAdvert.execute();
+			}
+		};
+		*/
+		GetAdvertList getAdvert = new GetAdvertList(getActivity(), listview ,adapter, locID);
 		getAdvert.execute();
 		return rootView;
 	}
